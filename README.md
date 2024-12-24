@@ -129,4 +129,104 @@
 
 
 
+# InfluxDB User Management via API
+For InfluxDB, user management using the UI is not possible. Use the API as described below.
+
+## List Users
+```bash
+curl -X GET http://localhost:8086/api/v2/users \
+  -H "Authorization: Token <your_token>"
+```
+
+---
+
+## Get the Organization ID
+Send a `GET` request to the `/api/v2/orgs` endpoint to list organizations:
+
+```bash
+curl -X GET http://localhost:8086/api/v2/orgs \
+  -H "Authorization: Token <your_admin_token>"
+```
+
+---
+
+## Get Owners List
+Use the following API to get the list of owners for an organization:
+
+```bash
+curl -X GET http://localhost:8086/api/v2/orgs/{org_id}/owners \
+  -H "Authorization: Token <your_admin_token>"
+```
+
+---
+
+## Add the User as an Owner
+Use the `/api/v2/orgs/{org_id}/owners` endpoint:
+
+```bash
+curl -X POST http://localhost:8086/api/v2/orgs/{org_id}/owners \
+  -H "Authorization: Token <your_admin_token>" \
+  -H "Content-Type: application/json" \
+  -d '{
+        "id": "<user_id>"
+      }'
+```
+
+---
+
+## Create a User
+Make a `POST` request to the `/api/v2/users` endpoint:
+
+```bash
+curl -X POST http://localhost:8086/api/v2/users \
+  -H "Authorization: Token <your_token>" \
+  -H "Content-Type: application/json" \
+  -d '{
+        "name": "<username>",
+        "status": "active"
+      }'
+```
+
+---
+
+## Change Password
+Use the `/api/v2/users/{user_id}/password` endpoint:
+
+```bash
+curl -X POST http://localhost:8086/api/v2/users/{user_id}/password \
+  -H "Authorization: Token <your_token>" \
+  -H "Content-Type: application/json" \
+  -d '{
+        "password": "<new_password>"
+      }'
+```
+
+---
+
+## Assign Admin Privileges
+Grant admin privileges by assigning the `admin` role to the user:
+
+```bash
+curl -X PATCH http://localhost:8086/api/v2/users/{user_id} \
+  -H "Authorization: Token <your_admin_token>" \
+  -H "Content-Type: application/json" \
+  -d '{
+        "role": "admin"
+      }'
+```
+
+---
+
+## Assign the User to the New Role
+Assign the user as an owner:
+
+```bash
+curl -X POST http://localhost:8086/api/v2/orgs/{org_id}/owners \
+  -H "Authorization: Token <your_admin_token>" \
+  -H "Content-Type: application/json" \
+  -d '{
+        "id": "<user_id>"
+      }'
+
+
 
