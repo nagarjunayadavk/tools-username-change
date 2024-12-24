@@ -1,3 +1,8 @@
+```
+This file contains instructions for updating usernames and passwords across these commonly used tools.
+Ensure you have the necessary admin permissions to perform these changes.
+```
+
 # Steps to Change a Username in SonarQube UI
 
 ## 1. Log in to SonarQube
